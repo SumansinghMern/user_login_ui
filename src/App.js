@@ -5,6 +5,7 @@ import { useState, useEffect } from "react";
 
 import { doSiteLogin } from "./store/features/global/globalSlice";
 import { connect } from "react-redux";
+import {getLocal} from './utils/utils'
 
 import { useSelector, useDispatch } from "react-redux";
 
@@ -15,13 +16,12 @@ import Login from "./view/Login/Login";
 function App() {
   // const [isAuth, setAuth] = useState(false);
 
-  const isAuth = useSelector((state) => state.globalData.isAuth);
+  const isAuth = useSelector((state) => state.globalData.isAuth) || getLocal('isAuth');
 
 
   const dispatch = useDispatch();
 
   let onLogin = (e, data) => {
-    console.log("🚀 ~ file: App.js:21 ~ onLogin ~ data:", data);
     dispatch(doSiteLogin(data));
   };
 

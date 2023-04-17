@@ -6,11 +6,24 @@ export function getAuthToken() {
 }
 
 export function setAuthToken(token /*  = sampleToken */) {
-  return Cookies.set("Access-Token", token.token, {
+  console.log(token,"ttttttttttt")
+  return Cookies.set("Access-Token", token, {
     expires: token.expireTime,
   });
 }
 
 export function removeAuthToken() {
   return Cookies.remove("Access-Token");
+}
+
+export function storeLocal(key,value) {
+  return localStorage.setItem(key,value)
+}
+
+export function getLocal(key) {
+  return localStorage.getItem(key)
+}
+
+export function removeLocal(key) {
+  return localStorage.removeItem(key)
 }

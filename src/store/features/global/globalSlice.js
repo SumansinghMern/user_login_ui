@@ -3,6 +3,7 @@ import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
 import request from "../../../utils/request";
 
 import { doLogin } from "../../../utils/api/api";
+import { setAuthToken,storeLocal } from "../../../utils/utils"
 
 const initialState = {
   isAuth: false,
@@ -15,7 +16,7 @@ export const doSiteLogin = createAsyncThunk("posts/getPosts", async (data) => {
   //     (data) => data.json()
   //   );
   const res = doLogin(data);
-  console.log("🚀 ~ file: globalSlice.js:18 ~ doLogin ~ res:", res);
+
   return res;
 });
 
@@ -28,10 +29,12 @@ export const postSlice = createSlice({
       state.loading = true;
     },
     [doSiteLogin.fulfilled]: (state, { payload }) => {
-      console.log(payload, "FFFFFFFFFFFFFFFFFFFFFFFFFFFF");
       state.loading = false;
       state.isAuth = true;
       state.privilegeRank = payload.data.privilegeRank;
+      setAuthToken(payload.data.token);
+      storeLocal('isAuth',true);
+      storeLocal('privilegeRank', payload.data.privilegeRank)
     },
     [doSiteLogin.rejected]: (state) => {
       state.loading = false;
